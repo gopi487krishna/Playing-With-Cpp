@@ -158,6 +158,8 @@
     <ClInclude Include="Policy Based Design.h" />
     <ClInclude Include="SUPERSUB_CompileTime.h" />
     <ClInclude Include="Type To Type.h" />
+    <ClInclude Include="TypeInfo.h" />
+    <ClInclude Include="Type_traits.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

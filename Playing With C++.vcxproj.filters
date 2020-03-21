@@ -32,5 +32,11 @@
     <ClInclude Include="SUPERSUB_CompileTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Type_traits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

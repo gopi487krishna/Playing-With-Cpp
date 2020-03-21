@@ -56,7 +56,7 @@ namespace policy_bs_design {
 		void doSomething() {
 
 			std::cout << "WidgetManager::doSomething()\n";
-			create();
+			this->create();
 		}
 	};
 }
