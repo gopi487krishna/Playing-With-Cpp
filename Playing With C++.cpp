@@ -15,7 +15,7 @@ auto print80dash() {
 
 // Demonstrates the use of policy based design
 void  policy_based_design_demo() {
-	WidgetManager<OPNewCreator<Widget>> widget_manager;
+	policy_bs_design::WidgetManager<policy_bs_design::OPNewCreator<policy_bs_design::Widget>> widget_manager;
 	widget_manager.doSomething();
 	print80dash();
 }
@@ -23,18 +23,18 @@ void  policy_based_design_demo() {
 // Demonstrates the std::conditional's implementation
 void select_type_demo() {
 
-	select_type<false, int, float>::type t = 6;
+	cond_select::select_type<false, int, float>::type t = 6;
 	std::cout << t<<'\n';
 	print80dash();
 }
 
 // Shows the use of type to type struct
 void type_to_type_demo() {
-	auto TERA_instance = create(std::string("FirstWidget"), type_to_type<TERA>());
-	auto widget_instance = create(std::string("FirstWidget"), type_to_type<Widget>());
+	tp_to_type::TERA* TERA_instance = tp_to_type::create(std::string("FirstWidget"), tp_to_type::type_to_type<tp_to_type::TERA>());
+	tp_to_type::Widget* widget_instance = tp_to_type::create(std::string("FirstWidget"), tp_to_type::type_to_type<tp_to_type::Widget>());
 
 	std::cout << "WIDGET : " << widget_instance->getName() << "\n";
-	std::cout << "TERA : " << widget_instance->getName() << "\n";
+	std::cout << "TERA : " << TERA_instance->getName() << "\n";
 	print80dash();
 }
 

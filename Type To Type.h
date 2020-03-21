@@ -3,52 +3,56 @@
 
 #include<string>
 
-class Widget;
-class TERA;
+namespace tp_to_type {
+	
+	
 
-template<typename T>
-struct type_to_type {
+	class Widget {
 
-	typedef T value_type;
-};
+		int some_required_value;
+		std::string widget_name;
+	public:
+		Widget(int some_required_value, std::string widget_name) :some_required_value(some_required_value), widget_name(widget_name) {}
+		auto getName() const {
 
-template<typename T, typename U>
-T* create(const U& arg, type_to_type<T>) {
+			return widget_name;
 
-	return new T(arg);
+		}
 
-}
+	};
 
-template<typename U>
-Widget* create(const U& arg, type_to_type<Widget>) {
+	class TERA {
 
-	return new Widget(-1, arg);
+		std::string name;
+	public:
+		TERA(std::string name) :name(name) {}
+		auto getName() const {
+			return name;
+		}
 
-}
+	};
 
 
-class Widget {
 
-	int some_required_value;
-	std::string widget_name;
-public:
-	Widget(int some_required_value, std::string widget_name) :some_required_value(some_required_value), widget_name(widget_name) {}
-	auto getName() const {
+	template<typename T>
+	struct type_to_type {
 
-		return widget_name;
+		typedef T value_type;
+	};
+
+	template<typename T, typename U>
+	T* create(const U& arg, type_to_type<T>) {
+
+		return new T(arg);
 
 	}
 
-};
+	template<typename U>
+	Widget* create(const U& arg, type_to_type<Widget>) {
 
-class TERA {
+		return new Widget(-1, arg);
 
-	std::string name;
-public:
-	TERA(std::string name) :name(name) {}
-	auto getName() {
-		return name;
 	}
 
-};
 
+}
