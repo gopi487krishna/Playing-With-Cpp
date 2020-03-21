@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Conditional Select Impl.h" />
     <ClInclude Include="Policy Based Design.h" />
+    <ClInclude Include="Type To Type.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

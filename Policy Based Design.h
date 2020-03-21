@@ -54,7 +54,7 @@ class WidgetManager :Policy {
 public:
 	void doSomething() {
 
-		std::cout << "WidgetManager::doSomething()";
+		std::cout << "WidgetManager::doSomething()\n";
 		create();
 	}
 };

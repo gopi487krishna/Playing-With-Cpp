@@ -26,5 +26,8 @@
     <ClInclude Include="Policy Based Design.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Type To Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
