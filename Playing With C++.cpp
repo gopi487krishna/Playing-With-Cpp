@@ -7,6 +7,8 @@
 #include "Type To Type.h"
 #include "SUPERSUB_CompileTime.h"
 #include "Type_traits.h"
+#include "typelist.h"
+#include "TypeInfo.h"
 #include <vector>
 
 #define PRINT_FUNC_NAME {print80dash(); std::cout<<__FUNCTION__<<'\n';print80dash();}
@@ -82,6 +84,26 @@ void is_pointer() {
 }
 
 
+void typelist_total_types() {
+
+	PRINT_FUNC_NAME
+	std::cout << "Length<TYPELIST(char,std::string,int)> :" << GTypeList::Length<TYPELIST_3(char, std::string, int)>::value;
+	print_empty_lines(4);
+}
+
+void typelist_type_at() {
+
+	PRINT_FUNC_NAME
+	std::cout << "type_at<TYPELIST(char,std::string,int)  :" << TypeInfo(typeid(GTypeList::typeAt<TYPELIST_3(char,std::string,int),1>::Result)).name();
+	print_empty_lines(4);
+}
+
+void typelist_check_if_type_present_at() {
+	PRINT_FUNC_NAME
+	std::cout << "char is present at in indexOf<TYPELIST(char,long,float) : " << GTypeList::indexOf<TYPELIST_3(char, long, float), char>::value;
+	std::cout << "\ndouble is present at in indexOf<TYPELIST(char,long,float) : " << GTypeList::indexOf<TYPELIST_3(char, long, float), double>::value;
+	print_empty_lines(4);
+}
 
 
 int main()
@@ -92,6 +114,9 @@ int main()
 	detect_inheritablity_and_conversion_at_runtime();
 	is_same_demo();
 	is_pointer();
+	typelist_total_types();
+	typelist_type_at();
+	typelist_check_if_type_present_at();
 	std::cin.get();
 }
 
