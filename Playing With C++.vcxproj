@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="Conditional Select Impl.h" />
     <ClInclude Include="Policy Based Design.h" />
+    <ClInclude Include="Strip Const Volatile Qualifiers.h" />
     <ClInclude Include="SUPERSUB_CompileTime.h" />
     <ClInclude Include="Type To Type.h" />
     <ClInclude Include="TypeInfo.h" />

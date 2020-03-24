@@ -41,5 +41,8 @@
     <ClInclude Include="typelist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Strip Const Volatile Qualifiers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

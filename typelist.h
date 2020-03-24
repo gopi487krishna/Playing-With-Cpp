@@ -103,6 +103,72 @@ namespace GTypeList {
 	};
 
 
+	// Erase(Typelist, Type) : Provides a new typelist with the without the 'Type'
+	// Input : Typelist , Type
+	// Output : Result that gives the new typelist
+	/* Algorithm :
+	
+		if TypeList is NullType and Type is T
+			Result = NullType
+		if TypeList is TypeList(T,Tail) and Type is T
+			Result = Tail
+		else  < Head, Tail, Type>
+			Result= TypeList<Head,Erase<Tail,T>::Result>;	
+	*/
+	
+	// Primary Template
+	template<class Typelist, class Type> struct Erase {};
+	template<class T> struct Erase<NullType, T> { typedef NullType Result; };
+	template<class T, class Tail> struct Erase<TypeList<T, Tail>, T> { typedef Tail Result; };
+	template<class Head, class Tail, class Type> struct Erase<TypeList<Head, Tail>, Type> { typedef TypeList < Head, typename Erase<Tail, Type>::Result> Result; };
+
+
+	// Erase All ( Typelist, Type) : Same as erase but removes every occurence of type
+	template<class Typelist, class Type> struct Erase_ALL {};
+	template<class T> struct Erase_ALL<NullType, T> { typedef NullType Result; };
+	template<class T, class Tail> struct Erase_ALL<TypeList<T, Tail>, T> { typedef typename Erase_ALL<Tail, T>::Result Result; };
+	template<class Head, class Tail, class Type> struct Erase_ALL<TypeList<Head, Tail>, Type> { typedef TypeList < Head, typename Erase_ALL<Tail, Type>::Result> Result; };
+
+	//Replace ( TypeList, OldType, NewType) : Replaces the occurence of OldType with NewType
+	// Input  : TypeList, OldType, NewType
+	// Output : Result
+	/* Algorithm:
+	
+		if(Typelist is NullType) then
+		Result = NullType
+		else if TypeList is Typelist<OldEL,Tail> 
+		then  Result =TypeList<Newel, Tail>
+		else< Head, Tail, OldEl, NewEl> 
+		 Result = TypeList<Head, Replace<Tail,OldEl,NewEl>::Result >
+	*/
+
+	//Primary template
+	template<class TypeList, class OldType, class NewType> struct Replace;
+	template<class OldEl, class NewEl> struct Replace<NullType, OldEl, NewEl> { typedef NullType Result; };
+	template<class OldEl, class NewEl, class Tail> struct Replace<TypeList<OldEl, Tail>, OldEl, NewEl> { typedef TypeList<NewEl, Tail> Result; };
+	template<class Head, class Tail, class OldEl, class NewEl> struct Replace<TypeList<Head,Tail>,OldEl,NewEl> { typedef TypeList< Head, typename Replace<Tail, OldEl, NewEl>::Result> Result; };
+
+
+	// Append : Appends a type to the typelist
+	// Input  : Typelist and Type
+	// Output : New Typelist with added type
+	/* Algorithm
+	  if TypeList is NullType and Type is T
+	     Result= TypeList<T,NullType>
+	 else if TypeList is TypeList(head, tail ) and Type is NullType
+		Result = TypeList(head,tail)
+
+	else< Head, Tail ,Type>
+		Result= TypeList ( Head, Append(Tail,T)::Result )	
+	*/
+
+	template<class TypeList, class Type> struct Append;
+	template<class T> struct Append<NullType, T> { typedef TypeList<T, NullType> Result;};
+	template<class Head, class Tail>struct Append<TypeList<Head, Tail>, NullType> { typedef TypeList<Head, Tail> Result; };
+	template<class Head, class Tail, class T> struct Append<TypeList<Head, Tail>, T> { typedef TypeList < Head, typename Append<Tail, T>::Result> Result; };
+
+
+
 }
 
 // Some repetition is there in basic version future versions should not have this problem( If you want to add more types just include your increased macro

@@ -9,6 +9,7 @@
 #include "Type_traits.h"
 #include "typelist.h"
 #include "TypeInfo.h"
+#include "Strip Const Volatile Qualifiers.h"
 #include <vector>
 
 #define PRINT_FUNC_NAME {print80dash(); std::cout<<__FUNCTION__<<'\n';print80dash();}
@@ -105,6 +106,47 @@ void typelist_check_if_type_present_at() {
 	print_empty_lines(4);
 }
 
+void strip_const() {
+
+	PRINT_FUNC_NAME
+	std::cout << "Type Name: (const int ) to (" << typeid(strip_cv::un_const<const int>::Type).name() << ")" ;
+	print_empty_lines(4);
+}
+
+void strip_volt() {
+
+	PRINT_FUNC_NAME
+	std::cout<<"Type Name: ( volatile int ) to ("<<typeid(strip_cv::un_volt<volatile int>::Type).name()<<")";
+	print_empty_lines(4);
+}
+void erase_type() {
+
+	PRINT_FUNC_NAME
+	std::cout << "(int, char, long) Erase -> char : " << GTypeList::Length<GTypeList::Erase<TYPELIST_3(int, char, float), char>::Result>::value;
+	print_empty_lines(4);
+}
+void erase_type_all() {
+
+	PRINT_FUNC_NAME
+	std::cout << "(float,char,float,double,float) Erase -> float : " << GTypeList::Length<GTypeList::Erase_ALL<TYPELIST_5(float,char,float,double,float),float>::Result>::value;
+	print_empty_lines(4);
+}
+
+void replace_type() {
+
+	PRINT_FUNC_NAME
+	std::cout << "Replace ( int,float,char) to (int float,double) :" << typeid(GTypeList::Replace<TYPELIST_3(int, float, char), char, double>::Result).name();
+	print_empty_lines(4);
+}
+
+void append_type() {
+
+	PRINT_FUNC_NAME
+	std::cout << "Append (int,float,char) ->(int,float,double) : " << typeid(GTypeList::Append<TYPELIST_3(int, float, char), double>::Result).name();
+	print_empty_lines(4);
+}
+
+
 
 int main()
 {
@@ -117,6 +159,13 @@ int main()
 	typelist_total_types();
 	typelist_type_at();
 	typelist_check_if_type_present_at();
+	strip_const();
+	strip_volt();
+	erase_type();
+	erase_type_all();
+	replace_type();
+	append_type();
+
 	std::cin.get();
 }
 
