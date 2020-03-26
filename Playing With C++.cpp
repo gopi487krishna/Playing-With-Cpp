@@ -147,6 +147,26 @@ void append_type() {
 }
 
 
+template<class TypeList>
+using tuple = GTypeList::HierarchyGen < TypeList, GTypeList::holder>;
+
+void tuple_check() {
+	PRINT_FUNC_NAME
+	tuple<TYPELIST_3(int,int,int)> my_tuple;
+	GTypeList::Get<0>(my_tuple) = 4;
+	GTypeList::Get<1>(my_tuple) = 8;
+	GTypeList::Get<2>(my_tuple) = 7;
+	std::cout << " tuple<int,int,int> {4,8,7) :" << GTypeList::Get<0>(my_tuple)<<" "<< GTypeList::Get<1>(my_tuple)<<" "<< GTypeList::Get<2>(my_tuple);
+	GTypeList::Get<0>(my_tuple) = 9;
+	GTypeList::Get<1>(my_tuple) = 9;
+	GTypeList::Get<2>(my_tuple) = 9;
+	std::cout << "\nAfter Modifying :" << GTypeList::Get<0>(my_tuple) << " " << GTypeList::Get<1>(my_tuple) << " " << GTypeList::Get<2>(my_tuple);
+	std::cout << "\n" << sizeof(my_tuple);
+
+
+	print_empty_lines(4);
+}
+
 
 int main()
 {
@@ -165,6 +185,7 @@ int main()
 	erase_type_all();
 	replace_type();
 	append_type();
+	tuple_check();
 
 	std::cin.get();
 }

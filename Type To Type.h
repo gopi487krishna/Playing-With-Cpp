@@ -40,6 +40,15 @@ namespace tp_to_type {
 		typedef T value_type;
 	};
 
+	template<unsigned n>
+	struct int2type {
+
+	  enum{value=n};
+
+	};
+
+
+
 	template<typename T, typename U>
 	T* create(const U& arg, type_to_type<T>) {
 

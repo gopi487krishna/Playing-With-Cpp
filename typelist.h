@@ -1,4 +1,6 @@
 #pragma once
+#include "Type To Type.h"
+
 
 // The semantics of Typelist is similar to Linked List but everything is done at compile time and NOT for VALUES but TYPES!!!
 
@@ -169,6 +171,98 @@ namespace GTypeList {
 
 
 
+	template<typename T>
+	struct holder {
+		typedef T holding_type;
+		T value;
+	};
+
+
+
+
+	// Class Hierarchy Generator :  This class acts as a code generator for many different uses ( like tuple )
+	// Input  : TypeList, Holder(Holds a value of required Type)
+	// Output : A type that has publicly inherited itself from Holders of all the types in TypeList
+
+	template<class TypeList, template<class> class Holder>
+	struct HierarchyGen;
+
+	template<class AtomicType, template<class> class Holder>
+	struct HierarchyGen : public Holder<AtomicType> {
+
+	    // Leftbase in all case represents the value Holder
+		typedef Holder<AtomicType> LeftBase;
+	};
+
+	template<class Head,class Tail, template<class>class Holder>
+	struct HierarchyGen < TypeList<Head, Tail>, Holder> : public HierarchyGen<Head, Holder>, public HierarchyGen<Tail, Holder> {
+
+		typedef HierarchyGen<Head,Holder> LeftBase;
+		typedef HierarchyGen<Tail,Holder> RightBase;
+	};
+
+
+	// If null type do nothing 
+	template< template<class>class Holder>
+	struct HierarchyGen< NullType, Holder> {};
+
+
+	//At : This structure helps us in getting the type at given index
+	// Input  : HierarchyGen , index
+	// Output : The type at index
+	// Algorithm:
+	/*
+	   if index is 0 then
+		  Result = current_Hierarchygen::LeftBase
+	   else 
+		  Result = At<current_Hierarchygen::RightBase , index-1>
+	
+	*/
+
+	// Primary template
+	template<class hierarchgen, unsigned int index>
+	struct At;
+
+	
+	template<class hierarchgen, unsigned int index>
+	struct At {
+
+
+		typedef typename At<typename hierarchgen::RightBase, index - 1>::Result Result;
+
+	};
+
+	template<class hierarchgen>
+	struct At<hierarchgen,0> {
+
+		typedef  typename hierarchgen::LeftBase Result;
+	};
+
+
+
+
+	// Functions cannot be partially specialized Hence the type2type and int2type trick is used
+	template< class Hierarchy, class Result>
+	inline Result& Get_Helper(Hierarchy& obj, tp_to_type::type_to_type<Result>, tp_to_type::int2type<0>){
+		// Assign main object to the required type ( Perticular value instance ( Holder) will be then accessed )
+		typename  Hierarchy::LeftBase& subobj= obj;
+		return subobj;	
+	}
+
+	template<class Hierarchy,class Result, unsigned  index>
+	inline Result& Get_Helper(Hierarchy& obj, tp_to_type::type_to_type<Result> dummy, tp_to_type::int2type<index>) {
+		// Its traversing a hierarchy recursively
+		typename  Hierarchy::RightBase& subobj = obj;
+		return Get_Helper(subobj, dummy, tp_to_type::int2type<index - 1>());
+	}
+
+
+	template<unsigned index, class Hierarchy>
+	typename At<Hierarchy, index>::Result::holding_type& Get(Hierarchy& obj) {
+
+		typedef typename At<Hierarchy, index>::Result Result;
+		return Get_Helper(obj, tp_to_type::type_to_type<Result>(), tp_to_type::int2type<index>()).value;
+	}
 }
 
 // Some repetition is there in basic version future versions should not have this problem( If you want to add more types just include your increased macro
