@@ -10,6 +10,7 @@
 #include "typelist.h"
 #include "TypeInfo.h"
 #include "Strip Const Volatile Qualifiers.h"
+#include "Functor.h"
 #include <vector>
 
 #define PRINT_FUNC_NAME {print80dash(); std::cout<<__FUNCTION__<<'\n';print80dash();}
@@ -99,6 +100,12 @@ void typelist_type_at() {
 	print_empty_lines(4);
 }
 
+void typelist_type_at_non_strict() {
+
+	PRINT_FUNC_NAME
+	std::cout << "type_at_non_strict<TYPELIST(char,std::string,int),5>  :" << TypeInfo(typeid(GTypeList::TypeAtNonStrict<TYPELIST_3(char, std::string, int), 5,EmptyType>::Result)).name();
+	print_empty_lines(4);
+}
 void typelist_check_if_type_present_at() {
 	PRINT_FUNC_NAME
 	std::cout << "char is present at in indexOf<TYPELIST(char,long,float) : " << GTypeList::indexOf<TYPELIST_3(char, long, float), char>::value;
@@ -147,6 +154,22 @@ void append_type() {
 }
 
 
+struct ms {
+
+	int operator()(int a, double b) { return a+b; }
+
+};
+void functor_test() {
+
+	PRINT_FUNC_NAME
+	ms t;
+	Functor<int, TYPELIST_2( int, double)> my_functor(t);
+	std::cout << "Functor Result: " << my_functor(2,4.5);
+	print_empty_lines(4);
+
+}
+
+
 template<class TypeList>
 using tuple = GTypeList::HierarchyGen < TypeList, GTypeList::holder>;
 
@@ -186,6 +209,8 @@ int main()
 	replace_type();
 	append_type();
 	tuple_check();
+	typelist_type_at_non_strict();
+	functor_test();
 
 	std::cin.get();
 }

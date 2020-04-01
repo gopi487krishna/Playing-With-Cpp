@@ -8,6 +8,9 @@
 // Represents a null type
 struct NullType {};
 
+// Represents Empty Type
+struct EmptyType {};
+
 
 // Basic datastructure for holding collection of  types
 template<typename H, typename T>
@@ -56,6 +59,7 @@ namespace GTypeList {
 
 	template<class TList, unsigned int index> struct typeAt;
 	
+
 	template<class Head, class Tail>struct typeAt<TypeList<Head,Tail>,0> {
 
 		typedef Head Result;
@@ -66,6 +70,28 @@ namespace GTypeList {
 		typedef typename typeAt<Tail, index - 1>::Result Result;
 
 	};
+
+
+	template<class TList, unsigned int index,class substype> struct TypeAtNonStrict;
+
+	template<unsigned int index, class substype> struct TypeAtNonStrict<NullType, index, substype> {
+
+		typedef substype Result;
+
+	};
+
+	template<class Head, class Tail, class substype> struct TypeAtNonStrict<TypeList<Head, Tail>, 0,substype> {
+
+
+		typedef Head Result;
+
+	};
+	template<class Head, class Tail, unsigned int index, class substype> struct TypeAtNonStrict<TypeList<Head, Tail>, index, substype> {
+
+		typedef typename TypeAtNonStrict<Tail, index - 1, substype>::Result Result;
+	};
+
+
 
 
 	//indexOf(Type) : indexOf gets the index of type specified or -1 if not present ( Mind Blower )
